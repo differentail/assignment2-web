@@ -1,4 +1,4 @@
-<%= errors %>
+<%= if errors then 'Error: ' + errors.join(', ') end %>  <br>
 
 <%= form_with model: book do |form| %>
   <div>

@@ -14,9 +14,11 @@ class BooksController < ApplicationController
   def create
     @book = Book.new(book_params)
 
-    return unless @book.save
-
-    redirect_to books_path
+    if @book.save
+      redirect_to books_path
+    else
+      redirect_to new_book_path(errors: @book.errors.full_messages)
+    end
   end
 
   private
