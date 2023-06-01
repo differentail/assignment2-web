@@ -5,3 +5,4 @@
 <p> <%= 'release date: ' + (@book.release.blank? ? 'not specified' : @book.release.to_fs) %> </p>
 
 <%= link_to 'Edit', edit_book_path(@book) %>
+<%= button_to "Delete", @book, :method => :delete %>
