@@ -21,6 +21,20 @@ class BooksController < ApplicationController
     end
   end
 
+  def edit
+    @book = Book.find(params[:id])
+  end
+
+  def update
+    @book = Book.find(params[:id])
+
+    if @book.update(book_params)
+      redirect_to book_path(@book)
+    else
+      redirect_to edit_book_path(@book, errors: @book.errors.full_messages)
+    end
+  end
+
   private
 
   # Strong param

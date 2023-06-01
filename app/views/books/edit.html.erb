@@ -1,0 +1,5 @@
+<%= link_to 'back', book_path(@book) %>
+
+<h1>Edit</h1>
+
+<%= render 'form', book: @book, errors: params[:errors] %>
