@@ -5,6 +5,6 @@ Rails.application.routes.draw do
   root 'books#index'
 
   resources :books do
-    resources :reviews
+    resources :reviews, except: %i[show]
   end
 end

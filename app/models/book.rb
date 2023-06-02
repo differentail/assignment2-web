@@ -1,12 +1,12 @@
 class Book < ApplicationRecord
-  has_many :reviews
+  has_many :reviews, dependent: :destroy
 
   validates :name, presence: true
   validates :description, allow_blank: true, presence: true
 
   def summary_star
-    stars = reviews.sum(:star)
+    return nil if reviews.count.zero?
 
-    stars / reviews.count
+    reviews.sum(:star) / reviews.count
   end
 end
