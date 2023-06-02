@@ -1,6 +1,6 @@
 class ReviewsController < ApplicationController
-  before_action :set_book, only: %i[edit update new create]
-  before_action :set_review, only: %i[edit update]
+  before_action :set_book
+  before_action :set_review, only: %i[edit update destroy]
 
   def edit; end
 
@@ -22,6 +22,11 @@ class ReviewsController < ApplicationController
     else
       redirect_to book_path(@book, review_errors: @review.errors.full_messages)
     end
+  end
+
+  def destroy
+    @review.destroy
+    redirect_to book_path(@book)
   end
 
   private
