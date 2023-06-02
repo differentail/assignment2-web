@@ -4,7 +4,9 @@
 <ul>
   <% @books.each do |book| %>
     <li>
+      <% s = book.summary_star %>
       <%= link_to book.name, book_path(book) %>
+      <%= 'star: ' + (s.nan? ? 'no reviews' : s.to_s) %>
     </li>
   <% end %>
 </ul>

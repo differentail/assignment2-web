@@ -6,3 +6,15 @@
 
 <%= link_to 'Edit', edit_book_path(@book) %>
 <%= button_to "Delete", @book, :method => :delete %>
+
+<h2>Reviews</h2>
+<% @book.reviews.each do |review| %>
+  <ul>
+    <li>
+      <%= 'comment: ' + review.comment %>
+    </li>
+    <li>
+      <%= 'star: ' + review.star.to_s %>
+    </li>
+  </ul>
+<% end %>
