@@ -42,11 +42,6 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
   end
 
-  # Strong param
-  # params[:book][:name]
-  # params[:book][:description]
-  # params[:book][:release]
-
   def book_params
     params.require(:book).permit(:name, :description, :release)
   end

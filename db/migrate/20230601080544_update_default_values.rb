@@ -1,6 +1,7 @@
 class UpdateDefaultValues < ActiveRecord::Migration[7.0]
   def change
-    change_column_default(:books, :description, '')
-    change_column_default(:books, :release, nil)
+    Book.where(description: nil).update_all(description: '')
+    change_column :books, :description, :text, null: false
+    change_column_default :books, :description, ''
   end
 end
