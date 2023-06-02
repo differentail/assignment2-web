@@ -21,3 +21,5 @@
     </li>
   </ul>
 <% end %>
+
+<%= render 'reviews/form', book: @book, review: @book.reviews.build, errors: params[:review_errors] %>

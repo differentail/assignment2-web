@@ -12,9 +12,17 @@ class ReviewsController < ApplicationController
     end
   end
 
-  def new; end
+  def new
+    @review = @book.reviews.new
+  end
 
-  def create; end
+  def create
+    if @book.reviews.create(review_params)
+      redirect_to book_path(@book)
+    else
+      redirect_to book_path(@book, review_errors: @review.errors.full_messages)
+    end
+  end
 
   private
 
