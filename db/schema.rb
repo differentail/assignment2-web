@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_01_183816) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_02_024723) do
   create_table "books", force: :cascade do |t|
     t.string "name"
     t.text "description", default: ""
@@ -24,6 +24,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_01_183816) do
     t.float "star"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "book_id", null: false
+    t.index ["book_id"], name: "index_reviews_on_book_id"
   end
 
+  add_foreign_key "reviews", "books"
 end
