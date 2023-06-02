@@ -1,0 +1,22 @@
+<%= if errors then 'Error: ' + errors.join(', ') end %>  <br>
+
+<%= form_with model: book do |form| %>
+  <div>
+    <%= form.label :name %><br>
+    <%= form.text_field :name %><br>
+  </div>
+
+  <div>
+    <%= form.label :description %><br>
+    <%= form.text_area :description %><br>
+  </div>
+
+  <div>
+    <%= form.label :release %><br>
+    <%= form.datetime_field :release %><br>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

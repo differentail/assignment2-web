@@ -1,0 +1,8 @@
+<p> <%= link_to 'back', books_path %> </p>
+
+<h1> <%= @book.name %> </h1>
+<p> <%= 'description: ' + @book.description %> </p>
+<p> <%= 'release date: ' + (@book.release.blank? ? 'not specified' : @book.release.to_fs) %> </p>
+
+<%= link_to 'Edit', edit_book_path(@book) %>
+<%= button_to "Delete", @book, :method => :delete %>
