@@ -16,5 +16,8 @@
     <li>
       <%= 'star: ' + review.star.to_s %>
     </li>
+    <li>
+      <%= link_to 'edit', edit_book_review_path(@book, review) %>
+    </li>
   </ul>
 <% end %>

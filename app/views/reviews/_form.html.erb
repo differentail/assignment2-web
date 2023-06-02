@@ -1,0 +1,17 @@
+<%= if errors then 'Error: ' + errors.join(', ') end %>  <br>
+
+<%= form_with model: [book, review] do |form| %>
+  <div>
+    <%= form.label :comment %><br>
+    <%= form.text_area :comment %><br>
+  </div>
+
+  <div>
+    <%= form.label 'star (0-5)' %><br>
+    <%= form.number_field :star, step: 'any' %><br>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
