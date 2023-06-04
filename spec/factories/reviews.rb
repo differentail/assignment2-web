@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: reviews
@@ -9,11 +11,3 @@
 #  updated_at :datetime         not null
 #  book_id    :integer          not null
 #
-
-one:
-  comment: MyText
-  star: 1.5
-
-two:
-  comment: MyText
-  star: 1.5

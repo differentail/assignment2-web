@@ -9,13 +9,3 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
-
-one:
-  name: MyString
-  description: MyText
-  release: 2023-06-01 13:50:37
-
-two:
-  name: MyString
-  description: MyText
-  release: 2023-06-01 13:50:37
