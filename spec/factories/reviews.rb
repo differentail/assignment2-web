@@ -11,3 +11,10 @@
 #  updated_at :datetime         not null
 #  book_id    :integer          not null
 #
+
+FactoryBot.define do
+  factory :review do
+    comment { Faker::Lorem.sentence }
+    star { Faker::Number.within(range: 0.0..5.0) }
+  end
+end
