@@ -5,6 +5,7 @@
   <% @books.each do |book| %>
     <li>
       <%= link_to book.name, book_path(book) %>
+      <%= 'star: ' + (book.summary_star || 'no reviews').to_s %>
     </li>
   <% end %>
 </ul>
