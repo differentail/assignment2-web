@@ -20,7 +20,7 @@
       <%= link_to 'edit', edit_book_review_path(@book, review) %>
     </li>
     <li>
-      <%= button_to 'delete', book_review_path(review), :method => :delete %>
+      <%= button_to 'delete', book_review_path(@book, review), :method => :delete %>
     </li>
   </ul>
 <% end %>
