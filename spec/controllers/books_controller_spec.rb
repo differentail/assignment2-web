@@ -101,8 +101,8 @@ RSpec.describe BooksController, type: :controller do
 
       it 'updates book correctly' do
         expect(subject).to redirect_to(book_path(book))
-        expect { book.reload }.to change(book, :name)
-          .and change(book, :description)
+        expect { book.reload }.to change(book, :name).from(book.name).to(book_attrs[:name])
+          .and change(book, :description).from(book.description).to(book_attrs[:description])
       end
     end
 
