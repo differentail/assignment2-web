@@ -99,10 +99,23 @@ RSpec.describe BooksController, type: :controller do
     context 'valid target id' do
       let(:params) { { id: book.id, book: book_attrs } }
 
-      it 'updates book correctly' do
-        expect(subject).to redirect_to(book_path(book))
-        expect { book.reload }.to change(book, :name).from(book.name).to(book_attrs[:name])
-          .and change(book, :description).from(book.description).to(book_attrs[:description])
+      context 'valid book attrs' do
+        it 'updates book correctly' do
+          expect(subject).to redirect_to(book_path(book))
+          expect { book.reload }.to change(book, :name).from(book.name)
+                                                       .to(book_attrs[:name])
+                               .and change(book, :description).from(book.description)
+                                                              .to(book_attrs[:description])
+        end
+      end
+
+      context 'invalid book attrs' do
+        before { book_attrs[:name] = nil }
+
+        it 'redirects errors' do
+          book.update(book_attrs)
+          expect(subject).to redirect_to(edit_book_path(book, errors: book.errors.full_messages))
+        end
       end
     end
 
