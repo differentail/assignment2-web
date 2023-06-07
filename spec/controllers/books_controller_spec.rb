@@ -8,7 +8,7 @@ RSpec.describe BooksController, type: :controller do
 
     let(:books) { create_list(:book, 10) }
 
-    it 'works' do
+    it 'works and sets @books to all books' do
       expect(subject.status).to eq(200)
       expect(assigns(:books)).to match_array(books)
     end
@@ -38,7 +38,10 @@ RSpec.describe BooksController, type: :controller do
 
   describe 'GET /new' do
     subject { get :new }
-    it 'works' do
+    it 'works and creates a new empty book' do
+      # this doesn't seem to work together with line 44
+      # expect(Book).to receive(:new)
+
       expect(subject.status).to eq(200)
       expect(assigns(:book)).to be_a_kind_of(Book)
     end
@@ -51,6 +54,7 @@ RSpec.describe BooksController, type: :controller do
 
     context 'valid params' do
       it 'creates a new post' do
+        expect { subject }.to change(Book, :count).by 1
         expect(subject).to redirect_to(books_path)
       end
     end
@@ -60,9 +64,8 @@ RSpec.describe BooksController, type: :controller do
         book_attrs[:name] = nil
       end
       it 'doesnt create a new post' do
-        bad_book = build(:book, book_attrs)
-        bad_book.save
-        expect(subject).to redirect_to(new_book_path(errors: bad_book.errors.full_messages))
+        expected_errors = ['Name can\'t be blank']
+        expect(subject).to redirect_to(new_book_path(errors: expected_errors))
       end
     end
   end
@@ -113,8 +116,8 @@ RSpec.describe BooksController, type: :controller do
         before { book_attrs[:name] = nil }
 
         it 'redirects errors' do
-          book.update(book_attrs)
-          expect(subject).to redirect_to(edit_book_path(book, errors: book.errors.full_messages))
+          expected_errors = ['Name can\'t be blank']
+          expect(subject).to redirect_to(edit_book_path(book, errors: expected_errors))
         end
       end
     end
@@ -131,37 +134,36 @@ RSpec.describe BooksController, type: :controller do
   describe 'DELETE /destroy' do
     subject { delete :destroy, params: }
 
-    let(:book_a) { create(:book) }
-    let(:book_b) { create(:book) }
-    let(:book_c) { create(:book) }
-    let(:review_a) { create(:review, book: book_b) }
-    let(:review_b) { create(:review, book: book_b) }
-    let(:review_c) { create(:review, book: book_c) }
+    let!(:book_a) { create(:book) }
+    let!(:book_b) { create(:book) }
+    let!(:book_c) { create(:book) }
+    let!(:review_a) { create(:review, book: book_b) }
+    let!(:review_b) { create(:review, book: book_b) }
+    let!(:review_c) { create(:review, book: book_c) }
+
+    # this probably does the same thing as changing `let` to `let!` like above
+    # before do
+    #   book_a
+    #   book_b
+    #   book_c
+    #   review_a
+    #   review_b
+    #   review_c
+    # end #
 
     context 'valid target id' do
       context 'book with no reviews' do
         let(:params) { { id: book_a.id } }
 
-        before do
-          book_a
-        end
-
         it 'deletes book' do
           expect { subject }.to change(Book, :count).by(-1)
-          # expect(Book.all).to match_array([book_b])
+                           .and change(Book, :all).from(match_array([book_a, book_b, book_c]))
+                                                  .to(match_array([book_b, book_c]))
         end
       end
 
       context 'book with reviews' do
         let(:params) { { id: book_b.id } }
-
-        before do
-          book_b
-          book_c
-          review_a
-          review_b
-          review_c
-        end
 
         it 'deletes book and its reviews' do
           expect { subject }.to change(Book, :count).by(-1)

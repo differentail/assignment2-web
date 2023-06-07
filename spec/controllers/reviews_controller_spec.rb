@@ -102,11 +102,9 @@ RSpec.describe ReviewsController, type: :controller do
       let(:id) { review.id }
 
       it 'deletes review' do
-        expect do
-          subject
-          book.reload
-        end.to change(book.reviews, :count).by(-1)
-          .and change(book, :reviews).from([review]).to be_empty
+        expect { subject }.to change(book.reload.reviews, :count).by(-1)
+                          .and change { book.reload.reviews }.from(match_array([review]))
+                                                            .to be_empty
       end
     end
 

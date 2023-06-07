@@ -22,7 +22,7 @@ RSpec.describe Book, type: :model do
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:name) }
-    it { is_expected.to allow_value('').for(:description) }
+    it { is_expected.to validate_presence_of(:description).allow_blank }
   end
 
   describe 'associations' do
@@ -48,7 +48,6 @@ RSpec.describe Book, type: :model do
       let(:book) { book_b }
 
       before do
-        book
         review_a
         review_b
       end
