@@ -172,6 +172,10 @@ RSpec.describe BooksController, type: :controller do
 
     context 'invalid target id' do
       let(:params) { { id: -1 } }
+
+      it 'raises error' do
+        expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
+      end
     end
   end
 end
