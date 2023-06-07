@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: books
@@ -9,15 +11,11 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
-class Book < ApplicationRecord
-  has_many :reviews, dependent: :destroy
 
-  validates :name, presence: true
-  validates :description, allow_blank: true, presence: true
-
-  def summary_star
-    return nil if reviews.count.zero?
-
-    reviews.sum(:star) / reviews.count
+FactoryBot.define do
+  factory :book do
+    name { Faker::Book.title }
+    description { Faker::Lorem.sentence }
+    release { Faker::Date.backward(days: 365) }
   end
 end

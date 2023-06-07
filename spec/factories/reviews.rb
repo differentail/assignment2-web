@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: reviews
@@ -9,9 +11,11 @@
 #  updated_at :datetime         not null
 #  book_id    :integer          not null
 #
-class Review < ApplicationRecord
-  belongs_to :book
 
-  validates :comment, allow_blank: true, presence: true
-  validates :star, presence: true, numericality: { in: 0..5 }
+FactoryBot.define do
+  factory :review do
+    comment { Faker::Lorem.sentence }
+    star { Faker::Number.within(range: 0.0..5.0) }
+    book { create(:book) }
+  end
 end
