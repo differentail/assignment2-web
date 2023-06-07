@@ -47,6 +47,12 @@ RSpec.describe Book, type: :model do
     context 'general case' do
       let(:book) { book_b }
 
+      before do
+        book
+        review_a
+        review_b
+      end
+
       it 'returns average of stars' do
         is_expected.to eq(book.reviews.sum(:star) / book.reviews.count)
       end
