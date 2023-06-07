@@ -19,7 +19,7 @@ RSpec.describe Review, type: :model do
   end
 
   describe 'validations' do
-    it { is_expected.to allow_value('').for(:comment) }
+    it { is_expected.to validate_presence_of(:comment).allow_blank }
     it { is_expected.to validate_presence_of(:star) }
     it { is_expected.to validate_numericality_of(:star).is_in(0..5) }
   end
@@ -27,39 +27,4 @@ RSpec.describe Review, type: :model do
   describe 'associations' do
     it { is_expected.to belong_to(:book) }
   end
-
-  # describe '#summary_star' do
-  #   subject { book.summary_star }
-  #   let(:book_a) { create(:book) }
-  #   let(:book_b) { create(:book) }
-  #   let(:review_a) { create(:review, book: book_b) }
-  #   let(:review_b) { create(:review, book: book_b) }
-
-  #   context 'no reviews' do
-  #     let(:book) { book_a }
-
-  #     it 'returns nil' do
-  #       is_expected.to eq(nil)
-  #     end
-  #   end
-
-  #   context 'general case' do
-  #     let(:book) { book_b }
-
-  #     it 'returns average of stars' do
-  #       is_expected.to eq(book.reviews.sum(:star) / book.reviews.count)
-  #     end
-  #   end
-  # end
-
-  # describe 'destruction' do
-  #   context 'for book with no reviews' do
-  #     let(:book) { book_b }
-
-  #     it 'should be destroyed' do
-  #       book.destroy
-  #       is_expected.to eq(nil)
-  #     end
-  #   end
-  # end
 end
