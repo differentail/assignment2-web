@@ -1,6 +1,7 @@
 class ReviewsController < ApplicationController
   before_action :set_book
   before_action :set_review, only: %i[edit update destroy]
+  before_action :authenticate_user!
 
   def edit; end
 
@@ -38,6 +39,6 @@ class ReviewsController < ApplicationController
   end
 
   def review_params
-    params.require(:review).permit(:comment, :star)
+    params.require(:review).permit(:comment, :star, :user).with_defaults(user: current_user)
   end
 end

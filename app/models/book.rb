@@ -11,6 +11,7 @@
 #
 class Book < ApplicationRecord
   has_many :reviews, dependent: :destroy
+  belongs_to :user
 
   validates :name, presence: true
   validates :description, allow_blank: true, presence: true

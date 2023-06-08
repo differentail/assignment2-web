@@ -11,6 +11,7 @@
 #
 class Review < ApplicationRecord
   belongs_to :book
+  belongs_to :user
 
   validates :comment, allow_blank: true, presence: true
   validates :star, presence: true, numericality: { in: 0..5 }

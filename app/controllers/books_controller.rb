@@ -1,5 +1,6 @@
 class BooksController < ApplicationController
   before_action :set_book, only: %i[show edit update destroy]
+  before_action :authenticate_user!, except: %i[index show]
 
   def index
     @books = Book.all
@@ -43,6 +44,6 @@ class BooksController < ApplicationController
   end
 
   def book_params
-    params.require(:book).permit(:name, :description, :release)
+    params.require(:book).permit(:name, :description, :release, :user).with_defaults(user: current_user)
   end
 end

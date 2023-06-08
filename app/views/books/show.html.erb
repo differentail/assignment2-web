@@ -3,9 +3,12 @@
 <h1> <%= @book.name %> </h1>
 <p> <%= 'description: ' + @book.description %> </p>
 <p> <%= 'release date: ' + (@book.release.blank? ? 'not specified' : @book.release.to_fs) %> </p>
+<p> <%= 'by: ' + (@book.user.email) %> </p>
 
+<% if @book.user == current_user %>
 <%= link_to 'Edit', edit_book_path(@book) %>
 <%= button_to "Delete", @book, :method => :delete %>
+<% end %>
 
 <h2>Reviews</h2>
 <% @book.reviews.each do |review| %>
@@ -17,11 +20,18 @@
       <%= 'star: ' + review.star.to_s %>
     </li>
     <li>
+      <%= 'by: ' + review.user.email %>
+    </li>
+
+    <% if review.user == current_user %>
+    <li>
       <%= link_to 'edit', edit_book_review_path(@book, review) %>
     </li>
     <li>
       <%= button_to 'delete', book_review_path(@book, review), :method => :delete %>
     </li>
+    <% end %>
+
   </ul>
 <% end %>
 
