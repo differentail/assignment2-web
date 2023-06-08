@@ -3,9 +3,12 @@ class ReviewsController < ApplicationController
   before_action :set_review, only: %i[edit update destroy]
   before_action :authenticate_user!
 
-  def edit; end
+  def edit
+    authorize @review
+  end
 
   def update
+    authorize @review
     if @review.update(review_params)
       redirect_to book_path(@book)
     else
@@ -14,6 +17,7 @@ class ReviewsController < ApplicationController
   end
 
   def create
+    authorize Review
     @review = @book.reviews.create(review_params)
 
     if @review.save
@@ -24,6 +28,7 @@ class ReviewsController < ApplicationController
   end
 
   def destroy
+    authorize @review
     @review.destroy
     redirect_to book_path(@book)
   end

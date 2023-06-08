@@ -9,10 +9,12 @@ class BooksController < ApplicationController
   def show; end
 
   def new
+    authorize Book
     @book = Book.new
   end
 
   def create
+    authorize Book
     @book = Book.new(book_params)
 
     if @book.save
@@ -22,9 +24,12 @@ class BooksController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit
+    authorize @book
+  end
 
   def update
+    authorize @book
     if @book.update(book_params)
       redirect_to book_path(@book)
     else
@@ -33,6 +38,7 @@ class BooksController < ApplicationController
   end
 
   def destroy
+    authorize @book
     @book.destroy
     redirect_to books_path
   end
