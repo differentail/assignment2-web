@@ -3,10 +3,12 @@ class BooksController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
 
   def index
-    @books = Book.all
+    @books = Book.all.page params[:page]
   end
 
-  def show; end
+  def show
+    @reviews = @book.reviews.includes(:user).page params[:page]
+  end
 
   def new
     authorize Book
