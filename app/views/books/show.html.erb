@@ -9,7 +9,7 @@
 <%= link_to 'Edit', edit_book_path(@book) %>
 <%= button_to "Delete", @book, :method => :delete %>
 <% end %>
-<% puts @book.reviews %>
+
 <h2>Reviews</h2>
 <% @reviews.each do |review| %>
   <ul>
