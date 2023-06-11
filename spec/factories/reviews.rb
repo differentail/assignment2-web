@@ -10,6 +10,7 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  book_id    :integer          not null
+#  user_id    :integer          not null
 #
 
 FactoryBot.define do
@@ -17,5 +18,6 @@ FactoryBot.define do
     comment { Faker::Lorem.sentence }
     star { Faker::Number.within(range: 0.0..5.0) }
     book { create(:book) }
+    user { create(:user) }
   end
 end
