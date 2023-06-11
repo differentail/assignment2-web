@@ -18,6 +18,7 @@ FactoryBot.define do
     comment { Faker::Lorem.sentence }
     star { Faker::Number.within(range: 0.0..5.0) }
     book { create(:book) }
-    user { create(:user) }
+
+    association :user, factory: :user
   end
 end
