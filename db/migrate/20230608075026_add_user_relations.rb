@@ -3,7 +3,9 @@ class AddUserRelations < ActiveRecord::Migration[7.0]
     add_reference :reviews, :user, foreign_key: true
     add_reference :books, :user, foreign_key: true
 
-    default_user = User.create(email: 'default@mail.com', password: '123456')
+    default_user = User.find_or_create_by(email: 'default@mail.com') do |user|
+      user.password = '123456'
+    end
     Review.find_each do |review|
       review.user_id = default_user.id
       review.save

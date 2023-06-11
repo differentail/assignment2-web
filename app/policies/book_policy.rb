@@ -2,7 +2,7 @@
 
 class BookPolicy < ApplicationPolicy
   def create?
-    !user.nil?
+    !user.blank?
   end
 
   def update?
