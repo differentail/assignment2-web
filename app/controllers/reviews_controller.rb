@@ -18,7 +18,7 @@ class ReviewsController < ApplicationController
 
   def create
     authorize Review
-    @review = @book.reviews.create(review_params)
+    @review = @book.reviews.new(review_params)
 
     if @review.save
       redirect_to book_path(@book)
