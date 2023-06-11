@@ -2,7 +2,7 @@
 
 class ReviewPolicy < ApplicationPolicy
   def create?
-    !user.nil?
+    !user.blank?
   end
 
   def update?

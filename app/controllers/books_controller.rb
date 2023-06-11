@@ -1,6 +1,7 @@
 class BooksController < ApplicationController
   before_action :set_book, only: %i[show edit update destroy]
   skip_before_action :authenticate_user!, only: %i[index show]
+  before_action :validate_user!, only: %i[new create edit update destroy]
 
   def index
     @books = Book.all
@@ -9,12 +10,10 @@ class BooksController < ApplicationController
   def show; end
 
   def new
-    authorize Book
     @book = Book.new
   end
 
   def create
-    authorize Book
     @book = Book.new(book_params)
 
     if @book.save
@@ -24,12 +23,9 @@ class BooksController < ApplicationController
     end
   end
 
-  def edit
-    authorize @book
-  end
+  def edit; end
 
   def update
-    authorize @book
     if @book.update(book_params)
       redirect_to book_path(@book)
     else
@@ -38,7 +34,6 @@ class BooksController < ApplicationController
   end
 
   def destroy
-    authorize @book
     @book.destroy
     redirect_to books_path
   end
@@ -50,6 +45,12 @@ class BooksController < ApplicationController
   end
 
   def book_params
-    params.require(:book).permit(:name, :description, :release, :user).with_defaults(user: current_user)
+    params.require(:book).permit(:name, :description, :release).tap do |param|
+      param[:user] = current_user
+    end
+  end
+
+  def validate_user!
+    authorize @book.nil? ? Book : @book
   end
 end
