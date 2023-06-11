@@ -68,6 +68,12 @@ RSpec.describe BooksController, type: :controller do
 
     subject { post :create, params: { book: book_attrs, user: } }
 
+    context 'not logged in' do
+      it 'redirects to login path' do
+        expect(subject).to redirect_to(new_user_session_path)
+      end
+    end
+
     context 'logged in' do
       login_random_user
       context 'valid params' do
