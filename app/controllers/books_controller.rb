@@ -4,10 +4,12 @@ class BooksController < ApplicationController
   before_action :validate_user!, only: %i[new create edit update destroy]
 
   def index
-    @books = Book.all
+    @books = Book.all.page params[:page]
   end
 
-  def show; end
+  def show
+    @reviews = @book.reviews.includes(:user).page params[:page]
+  end
 
   def new
     @book = Book.new
