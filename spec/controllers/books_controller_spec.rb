@@ -68,7 +68,7 @@ RSpec.describe BooksController, type: :controller do
     let(:user) { create(:user) }
     let(:book_attrs) { attributes_for(:book) }
 
-    subject { post :create, params: { book: book_attrs, user: } }
+    subject { post :create, params: { book: book_attrs } }
 
     context 'not logged in' do
       it 'redirects to login path' do
