@@ -12,9 +12,9 @@ RSpec.describe BooksController, type: :controller do
     let(:books) { create_list(:book, 6, user: user_a) << create_list(:book, 6, user: user_b) }
     let(:user) { user_a }
 
-    it 'works and sets @books to all books' do
+    it 'works and sets @books to 10 books per page' do
       expect(subject.status).to eq(200)
-      expect(assigns(:books)).to match_array(Book.all.page(1))
+      expect(assigns(:books)).to match_array(Book.all.page(1).per(10))
     end
   end
 
@@ -22,13 +22,15 @@ RSpec.describe BooksController, type: :controller do
     subject { get :show, params: }
 
     let(:book_a) { create(:book) }
+    let(:reviews) { create_list(:review, 12, book: book_a) }
 
     context 'book exists' do
       let(:params) { { id: book_a.id } }
 
-      it 'returns book' do
+      it 'returns book and shows 10 reviews per page' do
         expect(subject.status).to eq(200)
         expect(assigns(:book)).to eq(Book.find(book_a.id))
+        expect(assigns(:reviews)).to match_array(book_a.reviews.page(1).per(10))
       end
     end
 
