@@ -31,11 +31,13 @@ class ReviewsController < ApplicationController
   private
 
   def set_book
-    @book = Book.find(params[:book_id])
+    @book = Rails.cache.fetch(book_cache_path(params[:id]), expires_in: 10.minutes) do
+      Book.find(params[:id])
+    end
   end
 
   def set_review
-    @review = @book.reviews.find(params[:id])
+    @review = @book.reviews.to_a.find { |review| review.id == params[:id] }
   end
 
   def review_params
