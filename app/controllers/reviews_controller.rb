@@ -30,14 +30,18 @@ class ReviewsController < ApplicationController
 
   private
 
+  def book_cache_path(book_id)
+    "book/#{book_id}"
+  end
+
   def set_book
-    @book = Rails.cache.fetch(book_cache_path(params[:id]), expires_in: 10.minutes) do
-      Book.find(params[:id])
+    @book = Rails.cache.fetch(book_cache_path(params[:book_id]), expires_in: 10.minutes) do
+      Book.includes(reviews: [:user]).find(params[:book_id]).load
     end
   end
 
   def set_review
-    @review = @book.reviews.to_a.find { |review| review.id == params[:id] }
+    @review = @book.reviews.to_a.find { |review| review.id.to_s == params[:id] }
   end
 
   def review_params
