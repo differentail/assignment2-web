@@ -1,5 +1,7 @@
 class BooksController < ApplicationController
   before_action :set_book, only: %i[show edit update destroy]
+  skip_before_action :authenticate_user!, only: %i[index show]
+  before_action :validate_user!, only: %i[new create edit update destroy]
 
   def index
     @books = Book.all
@@ -43,6 +45,12 @@ class BooksController < ApplicationController
   end
 
   def book_params
-    params.require(:book).permit(:name, :description, :release)
+    params.require(:book).permit(:name, :description, :release).tap do |param|
+      param[:user] = current_user
+    end
+  end
+
+  def validate_user!
+    authorize @book.nil? ? Book : @book
   end
 end
