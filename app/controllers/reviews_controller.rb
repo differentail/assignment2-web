@@ -38,8 +38,6 @@ class ReviewsController < ApplicationController
     @book = Rails.cache.fetch(book_cache_path(params[:book_id]), expires_in: 10.minutes) do
       Book.includes(reviews: [:user]).find(params[:book_id]).load
     end
-    puts 'set book'
-    puts @book
   end
 
   def set_review
