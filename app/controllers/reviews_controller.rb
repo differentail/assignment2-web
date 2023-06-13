@@ -30,12 +30,12 @@ class ReviewsController < ApplicationController
 
   private
 
-  def book_cache_path(book_id)
+  def book_cache_key(book_id)
     "book/#{book_id}"
   end
 
   def set_book
-    @book = Rails.cache.fetch(book_cache_path(params[:book_id]), expires_in: 10.minutes) do
+    @book = Rails.cache.fetch(book_cache_key(params[:book_id]), expires_in: 10.minutes) do
       Book.includes(reviews: [:user]).find(params[:book_id]).load
     end
   end
