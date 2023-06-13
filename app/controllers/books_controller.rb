@@ -4,11 +4,17 @@ class BooksController < ApplicationController
   before_action :validate_user!, only: %i[new create edit update destroy]
 
   def index
-    @books = Book.all.page params[:page]
+    if Rails.cache.exist?(all_ids_cache_key)
+      @books = Kaminari.paginate_array(read_all_from_cache).page(params[:page])
+    else
+      @books = Book.includes(reviews: [:user]).all.load
+      write_books_to_cache(@books)
+      @books = @books.page(params[:page])
+    end
   end
 
   def show
-    @reviews = @book.reviews.includes(:user).page params[:page]
+    @reviews = Kaminari.paginate_array(@book.reviews).page(params[:page])
   end
 
   def new
@@ -43,7 +49,9 @@ class BooksController < ApplicationController
   private
 
   def set_book
-    @book = Book.find(params[:id])
+    @book = Rails.cache.fetch(book_cache_key(params[:id]), expires_in: 10.minutes) do
+      Book.find(params[:id])
+    end
   end
 
   def book_params
@@ -54,5 +62,25 @@ class BooksController < ApplicationController
 
   def validate_user!
     authorize @book.nil? ? Book : @book
+  end
+
+  def all_ids_cache_key
+    'book/all_ids'
+  end
+
+  def book_cache_key(book_id)
+    "book/#{book_id}"
+  end
+
+  def write_books_to_cache(books)
+    Rails.cache.write(all_ids_cache_key, books.pluck(:id), expires_in: 10.minutes)
+    Rails.cache.write_multi(books.to_h { |book| [book_cache_key(book.id), book] }, expires_in: 10.minutes)
+  end
+
+  def read_all_from_cache
+    return unless Rails.cache.exist?(all_ids_cache_key)
+
+    all_ids = Rails.cache.read(all_ids_cache_key).map { |id| book_cache_key(id) }
+    Rails.cache.read_multi(*all_ids).values
   end
 end
