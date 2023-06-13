@@ -105,6 +105,8 @@ class BooksController < ApplicationController
   end
 
   def update_in_cache(updated_book)
+    return unless Rails.cache.exist?(book_cache_path(updated_book.id))
+
     Rails.cache.write(book_cache_path(updated_book.id), updated_book)
   end
 end
