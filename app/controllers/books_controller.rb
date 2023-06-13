@@ -15,6 +15,7 @@ class BooksController < ApplicationController
 
   def show
     @reviews = Kaminari.paginate_array(@book.reviews).page(params[:page])
+    increment_views(@book.id)
   end
 
   def new
@@ -75,6 +76,10 @@ class BooksController < ApplicationController
     "book/#{book_id}"
   end
 
+  def book_views_cache_key(book_id)
+    "#{book_cache_key(book_id)}/views"
+  end
+
   def write_books_to_cache(books)
     Rails.cache.write(all_ids_cache_key, books.pluck(:id), expires_in: 10.minutes)
     Rails.cache.write_multi(books.to_h { |book| [book_cache_key(book.id), book] }, expires_in: 10.minutes)
@@ -104,5 +109,9 @@ class BooksController < ApplicationController
     return unless Rails.cache.exist?(book_cache_path(updated_book.id))
 
     Rails.cache.write(book_cache_path(updated_book.id), updated_book)
+  end
+
+  def increment_views(book_id)
+    Rails.cache.increment(book_views_cache_key(book_id), raw: true, expires_in: 25.hours)
   end
 end
