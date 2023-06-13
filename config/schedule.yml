@@ -1,0 +1,4 @@
+daily_ranking:
+  class: "DailyRankingJob"
+  cron: "0 0 */1 * *"
+  queue: schedule
