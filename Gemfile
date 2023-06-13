@@ -54,6 +54,12 @@ gem 'pundit', '~> 2.3'
 
 gem 'kaminari', '~> 1.2', '>= 1.2.2'
 
+gem 'sidekiq', '~> 7.1', '>= 7.1.1'
+
+gem 'sidekiq-cron', '~> 1.10', '>= 1.10.1'
+
+gem 'config', '~> 4.2'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'annotate', '~> 3.2'
@@ -78,6 +84,7 @@ group :test do
   gem 'faker', '~> 3.2'
   gem 'rails-controller-testing', '~> 1.0', '>= 1.0.5'
   gem 'rspec-rails', '~> 6.0', '>= 6.0.3'
+  gem 'rspec-sidekiq', '~> 3.1'
   gem 'selenium-webdriver'
   gem 'shoulda-matchers', '~> 5.3'
   gem 'webdrivers'

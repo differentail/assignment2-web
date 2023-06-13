@@ -7,6 +7,7 @@ abort('The Rails environment is running in production mode!') if Rails.env.produ
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'devise'
+require 'sidekiq/testing'
 require_relative 'support/controller_macros'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -65,4 +66,10 @@ RSpec.configure do |config|
 
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.extend ControllerMacros, type: :controller
+end
+
+RSpec::Sidekiq.configure do |config|
+  config.clear_all_enqueued_jobs = true
+  config.enable_terminal_colours = true
+  config.warn_when_jobs_not_processed_by_sidekiq = true
 end
