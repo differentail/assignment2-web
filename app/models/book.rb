@@ -12,6 +12,7 @@
 #
 class Book < ApplicationRecord
   has_many :reviews, dependent: :destroy
+  has_many :book_ranks, dependent: :destroy
   belongs_to :user
 
   validates :name, presence: true
