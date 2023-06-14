@@ -23,6 +23,6 @@ describe DailyRankingJob, type: :job do
   it 'rank all books by views descending' do
     subject.perform
     ranking = Rank.first
-    expect(ranking.book_ranks.order(:order_id).to_a.pluck(:book_id)).to eq([3, 1, 2])
+    expect(ranking.book_ranks.order(:order_id).pluck(:book_id)).to eq([3, 1, 2])
   end
 end
