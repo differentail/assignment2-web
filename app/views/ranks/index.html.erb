@@ -1,0 +1,11 @@
+<%= link_to 'back', root_path %>
+
+<h1>Ranks</h1>
+
+<ul>
+  <% @ranks.each do |rank| %>
+  <li>
+    <%= link_to rank.date.to_date.to_fs(:long_ordinal), rank_path(rank) %>
+  </li>
+  <% end %>
+</ul>

@@ -13,4 +13,6 @@ Rails.application.routes.draw do
   resources :books do
     resources :reviews, only: %i[create edit update destroy]
   end
+
+  resources :ranks, only: %i[index show]
 end

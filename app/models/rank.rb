@@ -8,7 +8,7 @@
 #  updated_at :datetime         not null
 #
 class Rank < ApplicationRecord
-  has_many :book_ranks, dependent: :destroy
+  has_many :book_ranks, -> { order(order_id: :asc) }, dependent: :destroy
 
   validates :date, presence: true
 end
