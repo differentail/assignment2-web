@@ -5,8 +5,10 @@ class ReviewsController < ApplicationController
 
   def edit; end
 
+  # TODO: test cache reviews
   def update
     if @review.update(review_params)
+      update_book_in_cache(@book.reload)
       redirect_to book_path(@book)
     else
       redirect_to edit_book_review_path(@book, @review, errors: @review.errors.full_messages)
@@ -17,6 +19,7 @@ class ReviewsController < ApplicationController
     @review = @book.reviews.new(review_params)
 
     if @review.save
+      update_book_in_cache(@book.reload)
       redirect_to book_path(@book)
     else
       redirect_to book_path(@book, review_errors: @review.errors.full_messages)
@@ -25,6 +28,7 @@ class ReviewsController < ApplicationController
 
   def destroy
     @review.destroy
+    update_book_in_cache(@book.reload)
     redirect_to book_path(@book)
   end
 
@@ -50,5 +54,11 @@ class ReviewsController < ApplicationController
 
   def validate_user!
     authorize @review.nil? ? Review : @review
+  end
+
+  def update_book_in_cache(book)
+    return unless Rails.cache.exist?(book_cache_key(book.id))
+
+    Rails.cache.write(book_cache_key(book.id), book)
   end
 end
