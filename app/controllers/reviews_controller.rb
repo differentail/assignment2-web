@@ -57,8 +57,8 @@ class ReviewsController < ApplicationController
   end
 
   def update_book_in_cache(book)
-    return unless Rails.cache.exist?(book_cache_path(book.id))
+    return unless Rails.cache.exist?(book_cache_key(book.id))
 
-    Rails.cache.write(book_cache_path(book.id), book)
+    Rails.cache.write(book_cache_key(book.id), book)
   end
 end
