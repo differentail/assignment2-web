@@ -3,7 +3,7 @@ class DailyRankingJob
 
   # TODO: test this job with actual book views,
   #       also call refresh_views
-  def perform(*_args)
+  def perform
     today_ranking = Rank.create(date: Date.today)
     Book.all.each do |book|
       book_rank = today_ranking.book_ranks.new
@@ -12,7 +12,7 @@ class DailyRankingJob
       refresh_views(book.id)
     end
 
-    sort_book_ranks(today_ranking)
+    sort_book_ranks!(today_ranking)
 
     today_ranking.save
   end
@@ -32,7 +32,7 @@ class DailyRankingJob
     Rails.cache.write(book_views_cache_key(book_id), 0, raw: true, expires_in: 25.hours)
   end
 
-  def sort_book_ranks(ranking)
+  def sort_book_ranks!(ranking)
     idx = 0
     prev_views = Float::INFINITY
     ranking.book_ranks.to_a.sort_by(&:view).reverse.each do |book_rank|
