@@ -3,9 +3,9 @@
 require 'rails_helper'
 
 describe DailyRankingJob, type: :job do
-  let!(:book1) { create(:book) }
-  let!(:book2) { create(:book) }
-  let!(:book3) { create(:book) }
+  let(:book1) { create(:book) }
+  let(:book2) { create(:book) }
+  let(:book3) { create(:book) }
   let(:memory_store) { ActiveSupport::Cache.lookup_store(:redis_cache_store) }
   let(:cache) { Rails.cache }
 
