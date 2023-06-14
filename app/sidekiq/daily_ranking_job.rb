@@ -28,8 +28,8 @@ class DailyRankingJob
   end
 
   def refresh_views(book_id)
-    Rails.cache.delete(book_views_cache_key(book_id), raw:true)
-    Rails.cache.write(book_views_cache_key(book_id), raw: true, expires_in: 25.hours)
+    Rails.cache.delete(book_views_cache_key(book_id), raw: true)
+    Rails.cache.write(book_views_cache_key(book_id), 0, raw: true, expires_in: 25.hours)
   end
 
   def sort_book_ranks(ranking)
