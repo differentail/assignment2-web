@@ -1,0 +1,18 @@
+<%= link_to 'back', ranks_path %>
+
+<h1>Ranking <%= @rank.date.to_date.to_fs(:long_ordinal) %> </h1>
+
+<table>
+  <tr>
+    <th>No.</th>
+    <th>Name</th>
+    <th>Views</th>
+  </tr>
+  <% @rank.book_ranks.each do |book_rank| %>
+  <tr>
+    <td> <%= book_rank.order_id %> </td>
+    <td> <%= link_to book_rank.book.name, book_path(book_rank.book) %> </td>
+    <td> <%= book_rank.view %> </td>
+  </tr>
+  <% end %>
+</table>

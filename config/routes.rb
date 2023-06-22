@@ -7,7 +7,12 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root 'books#index'
 
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/sidekiq'
+
   resources :books do
     resources :reviews, only: %i[create edit update destroy]
   end
+
+  resources :ranks, only: %i[index show]
 end
