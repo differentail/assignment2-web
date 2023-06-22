@@ -4,17 +4,16 @@ class DailyRankingJob
   # TODO: test this job with actual book views,
   #       also call refresh_views
   def perform
-    today_ranking = Rank.create(date: Date.today)
-    Book.all.each do |book|
-      book_rank = today_ranking.book_ranks.new
-      book_rank.book = book
-      book_rank.view = fetch_views(book.id)
-      refresh_views(book.id)
+    Rank.transaction do
+      today_ranking = Rank.new(date: Date.today)
+      Book.find_each do |book|
+        today_ranking.book_ranks.new(book:, view: fetch_views(book.id))
+        refresh_views(book.id)
+      end
+
+      sort_book_ranks!(today_ranking)
+      today_ranking.save!
     end
-
-    sort_book_ranks!(today_ranking)
-
-    today_ranking.save
   end
 
   private

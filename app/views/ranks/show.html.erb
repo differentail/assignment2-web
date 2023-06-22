@@ -8,7 +8,7 @@
     <th>Name</th>
     <th>Views</th>
   </tr>
-  <% @rank.book_ranks.each.with_index do |book_rank| %>
+  <% @rank.book_ranks.each do |book_rank| %>
   <tr>
     <td> <%= book_rank.order_id %> </td>
     <td> <%= link_to book_rank.book.name, book_path(book_rank.book) %> </td>
